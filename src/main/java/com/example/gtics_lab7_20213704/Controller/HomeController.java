@@ -93,6 +93,7 @@ public class HomeController {
                 return ResponseEntity.badRequest().body(er);
             }
         } catch (Exception err) {
+            System.out.println("ErrorFatal");
             HashMap<String, Object> er = new HashMap<>();
             er.put("error", "ocurrio un error inesperado");
             er.put("date", "" + LocalDateTime.now());

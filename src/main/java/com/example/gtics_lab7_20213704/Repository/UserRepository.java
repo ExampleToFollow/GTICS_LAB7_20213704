@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(nativeQuery = true, value = "select *  from  users u  where authorizedResource = ?1 ")
-    Resource findByIdResourceName(int idResource);
+    List<User> findByIdResourceName(int idResource);
     @Modifying
     @Transactional
     @Query(nativeQuery = true,value = "update users set active = false where userId>0 ")
