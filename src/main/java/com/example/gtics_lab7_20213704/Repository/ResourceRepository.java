@@ -9,4 +9,5 @@ import java.util.List;
 public interface ResourceRepository extends JpaRepository<Resource,Integer> {
     @Query(nativeQuery = true, value = "select *  from  resources r  where name = ?1 limit 1")
     Resource findResourceByName(String name);
+
 }

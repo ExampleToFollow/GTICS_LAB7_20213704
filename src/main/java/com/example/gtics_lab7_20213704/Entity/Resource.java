@@ -16,10 +16,8 @@ public class Resource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resourceid", nullable = false)
     private Integer id;
-
     @Column(name = "name", length = 100)
     private String name;
-
     @OneToMany(mappedBy = "authorizedResource")
     private Set<User> users = new LinkedHashSet<>();
 
