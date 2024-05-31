@@ -10,11 +10,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "resources", schema = "lablewis")
+@Table(name = "resources", schema = "niupay")
 public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "resourceId", nullable = false)
+    @Column(name = "resourceid", nullable = false)
     private Integer id;
 
     @Column(name = "name", length = 100)

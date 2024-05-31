@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "users", schema = "lablewis")
+@Table(name = "users", schema = "niupay")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId", nullable = false)
+    @Column(name = "userid", nullable = false)
     private Integer id;
 
     @Column(name = "name", length = 100)
@@ -21,10 +21,10 @@ public class User {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authorizedResource")
+    @JoinColumn(name = "authorizedresource")
     private Resource authorizedResource;
 
     @Column(name = "active")
-    private Byte active;
+    private boolean active;
 
 }
