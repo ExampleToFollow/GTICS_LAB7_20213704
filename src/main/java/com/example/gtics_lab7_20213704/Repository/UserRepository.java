@@ -14,4 +14,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Transactional
     @Query(nativeQuery = true,value = "update users set active = false where userId>0 ")
     void apagarTodo();
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true,value = "update users set authorizedResource = ?2 where userId= ?1")
+    void updateAuth(int idUser , int idAuth );
 }

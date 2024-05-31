@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 
 @RestController
 public class HomeController {
@@ -133,6 +134,51 @@ public class HomeController {
 
     //Actualizar el tipo de usuario
 
+
+    @PutMapping(value = "/SDN/UpdateTipo")
+    public Object updateTipo(@RequestBody User user ){
+        HashMap<String, Object> responseMap = new HashMap<>();
+        if (user.getId() != null && user.getId() > 0) {
+            Optional<User> optUser = userRepository.findById(user.getId());
+            if (optUser.isPresent()) {
+                //Consideramos roles "Contador"  , "Cliente" , "AnalistaPromociones" y "AnalistaLogico"
+                if(user.getType() != null  && (Arrays.asList("Contador", "Cliente", "AnalistaPromociones", "AnalistaLogico")).contains(user.getType())){
+                    User auxPlayer = optUser.get();
+                    auxPlayer.setType(user.getType());
+                    User newUser = userRepository.save(auxPlayer);
+                    //Cambiamos sus permisos
+                    switch(user.getType()){
+                        case "Contador":
+                            userRepository.updateAuth(user.getId(), resourceRepository.findResourceByName("ServidorDeContabilidad").getId());
+                            break;
+                        case "Cliente":
+                            userRepository.updateAuth(user.getId(), resourceRepository.findResourceByName("ServidorDeClientes").getId());
+                            break;
+                        case "AnalistaPromociones":
+                            userRepository.updateAuth(user.getId(), resourceRepository.findResourceByName("ServidorDePromociones").getId());
+                            break;
+                        case "AnalistaLogico":
+                            userRepository.updateAuth(user.getId(), resourceRepository.findResourceByName("impresora").getId());
+                            break;
+                    }
+                    responseMap.put("estado", "actualizado");
+                    return ResponseEntity.ok(responseMap);
+                }else {
+                        responseMap.put("estado", "error");
+                        responseMap.put("msg", "debe ingresar un valor de type");
+                        return ResponseEntity.badRequest().body(responseMap);
+                }
+            } else {
+                responseMap.put("estado", "error");
+                responseMap.put("msg", "El usuario a actualizar no existe");
+                return ResponseEntity.badRequest().body(responseMap);
+            }
+        } else {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Debe enviar un ID");
+            return ResponseEntity.badRequest().body(responseMap);
+        }
+    }
 
 
 
